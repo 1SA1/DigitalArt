@@ -1,4 +1,19 @@
 <?php
+// Enqueue Firebase JavaScript SDK and custom script on order received page
+function enqueue_firebase_and_custom_script_on_order_received_page() {
+    // Check if we're on the order received page
+    if (is_wc_endpoint_url('order-received')) {
+	
+        // Enqueue Firebase JavaScript SDK
+        wp_enqueue_script('firebase-app', 'https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js', array(), null, false);
+        wp_enqueue_script('firebase-database', 'https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js', array('firebase-app'), null, false);
+
+        // Enqueue your custom JavaScript file
+        wp_enqueue_script('custom-firebase-integration', get_template_directory_uri() . '/assets/js/firebase_integration.js', array('firebase-database'), null, true);
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_firebase_and_custom_script_on_order_received_page');
+
 
 /**
  * Blockskit Shop functions and definitions
